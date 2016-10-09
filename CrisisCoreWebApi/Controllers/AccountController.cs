@@ -12,12 +12,12 @@ using System.Web.Http;
 
 namespace CrisisCoreWebApi.Controllers
 {
-    public class LoginController : ApiController
+    public class AccountController : ApiController
     {
         String connString = ConfigurationManager.ConnectionStrings["conn"].ConnectionString;
 
         [HttpPost]
-        public Account GetIncidentType(Account account)
+        public Account Login(Account account)
         {
             try
             {
@@ -36,7 +36,8 @@ namespace CrisisCoreWebApi.Controllers
                         {
                             if (dr.Read())
                             {
-                                account.AccessLevel = Convert.ToInt32(dr["IncidentTypeId"]);
+                                account.AccessLevel = Convert.ToInt32(dr["AccessLevel"]);
+                                account.Password = "";
                                 return account;
                             }
                         }
@@ -56,7 +57,7 @@ namespace CrisisCoreWebApi.Controllers
         {
             using (var sha1 = new SHA1Managed())
             {
-                return BitConverter.ToString(sha1.ComputeHash(Encoding.UTF8.GetBytes(stringToHash)));
+                return BitConverter.ToString(sha1.ComputeHash(Encoding.UTF8.GetBytes(stringToHash))).Replace("-", "").ToLower();
             }
         }
     }

@@ -121,7 +121,7 @@
     <Compile Include="Controllers\AreaController.cs" />
     <Compile Include="Controllers\IncidentController.cs" />
     <Compile Include="Controllers\IncidentTypeController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ModemController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
