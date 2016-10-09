@@ -37,7 +37,7 @@ namespace CrisisCoreWebApi.Controllers
             {
                 using (SqlConnection conn = new SqlConnection(connString))
                 {
-                    String query = "SELECT IncidentTypes.*, Agencies.* FROM dbo.IncidentTypes LEFT JOIN Agencies ON Agencies.AgencyId = IncidentTypes.AgencyId WHERE IncidentTypes.IncidentTypeId=@IncidentTypeId";
+                    String query = "SELECT IncidentTypes.*, Agencies.* FROM IncidentTypes LEFT JOIN Agencies ON Agencies.AgencyId = IncidentTypes.AgencyId WHERE IncidentTypes.IncidentTypeId=@IncidentTypeId";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@IncidentTypeId", id);
@@ -78,7 +78,7 @@ namespace CrisisCoreWebApi.Controllers
             {
                 using (SqlConnection conn = new SqlConnection(connString))
                 {
-                    String query = "SELECT IncidentTypes.*, Agencies.* FROM dbo.IncidentTypes LEFT JOIN Agencies ON Agencies.AgencyId = IncidentTypes.AgencyId";
+                    String query = "SELECT IncidentTypes.*, Agencies.* FROM IncidentTypes LEFT JOIN Agencies ON Agencies.AgencyId = IncidentTypes.AgencyId";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         conn.Open();
@@ -120,7 +120,40 @@ namespace CrisisCoreWebApi.Controllers
                 using (AreaController ac = new AreaController())
                 using (SqlConnection conn = new SqlConnection(connString))
                 {
-                    String query = "SELECT IncidentTypes.IncidentTypeId, COUNT(Incidents.IncidentId) AS IncidentCount FROM IncidentTypes LEFT JOIN Incidents ON IncidentTypes.IncidentTypeId = Incidents.IncidentTypeId AND Incidents.AreaId=@AreaId GROUP BY IncidentTypes.IncidentTypeId";
+                    String query = "SELECT IncidentTypes.IncidentTypeId, COUNT(Incidents.IncidentId) AS IncidentCount FROM IncidentTypes LEFT JOIN Incidents ON IncidentTypes.IncidentTypeId = Incidents.IncidentTypeId AND Incidents.AreaId=@AreaId AND Incidents.ResolveDateTime IS NULL GROUP BY IncidentTypes.IncidentTypeId";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@AreaId", areaId);
+                        conn.Open();
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                IncidentType incidentType = GetIncidentType(dr["IncidentTypeId"].ToString());
+                                incidentType.IncidentsCount = Convert.ToInt32(dr["IncidentCount"]);
+                                incidentTypes.Add(incidentType);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return incidentTypes;
+        }
+
+        [HttpGet]
+        public IEnumerable<IncidentType> GetRecentIncidentTypesInArea(string areaId)
+        {
+            List<IncidentType> incidentTypes = new List<IncidentType>();
+            try
+            {
+                using (AreaController ac = new AreaController())
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    String query = "SELECT IncidentTypes.IncidentTypeId, COUNT(Incidents.IncidentId) AS IncidentCount FROM IncidentTypes LEFT JOIN Incidents ON IncidentTypes.IncidentTypeId = Incidents.IncidentTypeId AND Incidents.AreaId=@AreaId AND ReportDateTime>DATEADD(minute, -30, GETDATE()) GROUP BY IncidentTypes.IncidentTypeId";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@AreaId", areaId);
