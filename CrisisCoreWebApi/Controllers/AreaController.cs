@@ -109,8 +109,8 @@ namespace CrisisCoreWebApi.Controllers
             return c;
         }
 
-
-        private GeoCoordinate GetCoordinate(string postalCode)
+        [HttpGet]
+        public GeoCoordinate GetCoordinate(string postalCode)
         {
             if (postalCode.Equals("")) return null;
             try
