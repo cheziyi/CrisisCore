@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <asp:Panel ID="successMsg" class="alert alert-success fade in" runat="server" Visible="false">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Success!</strong> Incident added succesfully and SMS sent to respective agency.
+        <strong>Success!</strong> <asp:Literal ID="litMessage" runat="server"></asp:Literal>
     </asp:Panel>
     <div class="row">
         <div class="well col-lg-6">

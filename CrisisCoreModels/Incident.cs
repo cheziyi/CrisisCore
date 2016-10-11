@@ -12,6 +12,7 @@ namespace CrisisCoreModels
         public Area Area { get; set; }
         public string ReportName { get; set; }
         public string ReportMobile { get; set; }
+        public GeoCoordinate Location { get; set; }
         public DateTime ReportDateTime { get; set; }
         public DateTime ResolveDateTime { get; set; }
     }

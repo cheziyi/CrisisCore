@@ -35,14 +35,15 @@ namespace CrisisCoreWebApi.Controllers
                             {
                                 Incident incident = new Incident();
                                 incident.IncidentId = Convert.ToInt32(dr["IncidentId"]);
-                                incident.IncidentType = itc.GetIncidentType(dr["IncidentTypeId"].ToString());
+                                incident.IncidentType = new IncidentType(dr["IncidentTypeId"].ToString(), null, null);
                                 incident.PostalCode = dr["PostalCode"].ToString();
                                 incident.ReportDateTime = Convert.ToDateTime(dr["ReportDateTime"]);
                                 incident.ReportMobile = dr["ReportMobile"].ToString();
                                 incident.ReportName = dr["ReportName"].ToString();
                                 incident.UnitNo = dr["UnitNo"].ToString();
                                 incident.AddInfo = dr["AddInfo"].ToString();
-                                incident.Area = ac.GetArea(dr["AreaId"].ToString());
+                                incident.Area = new Area(dr["AreaId"].ToString(), null, null);
+                                incident.Location = ac.GetCoordinate(incident.PostalCode);
 
                                 incidents.Add(incident);
                             }
