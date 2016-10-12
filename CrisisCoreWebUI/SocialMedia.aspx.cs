@@ -57,7 +57,7 @@ namespace CrisisCoreWebUI
 
             foreach (IncidentType type in incidentTypes)
             {
-                lstEmergencies.Items.Add(new ListItem(type.IncidentTypeName + " (" + type.IncidentsCount + ")", type.IncidentTypeId));
+                lstEmergencies.Items.Add(new ListItem(type.IncidentTypeName + " (" + type.Severity + ")", type.IncidentTypeId));
             }
         }
 

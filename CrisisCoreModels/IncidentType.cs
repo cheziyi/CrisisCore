@@ -5,7 +5,7 @@
 
         public string IncidentTypeId { get; set; }
         public string IncidentTypeName { get; set; }
-        public int IncidentsCount { get; set; }
+        public int Severity { get; set; }
         public Agency Agency { get; set; }
 
         public IncidentType() { }

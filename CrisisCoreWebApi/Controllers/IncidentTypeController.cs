@@ -7,9 +7,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
+using System.Xml;
 
 namespace CrisisCoreWebApi.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class IncidentTypeController : ApiController
     {
         String connString = ConfigurationManager.ConnectionStrings["conn"].ConnectionString;
@@ -131,7 +134,7 @@ namespace CrisisCoreWebApi.Controllers
                             while (dr.Read())
                             {
                                 IncidentType incidentType = GetIncidentType(dr["IncidentTypeId"].ToString());
-                                incidentType.IncidentsCount = Convert.ToInt32(dr["IncidentCount"]);
+                                incidentType.Severity = Convert.ToInt32(dr["IncidentCount"]);
                                 incidentTypes.Add(incidentType);
                             }
                         }
@@ -141,6 +144,8 @@ namespace CrisisCoreWebApi.Controllers
             catch (Exception ex)
             {
             }
+            incidentTypes.Add(GetPSIInArea(areaId));
+
             return incidentTypes;
         }
 
@@ -164,7 +169,7 @@ namespace CrisisCoreWebApi.Controllers
                             while (dr.Read())
                             {
                                 IncidentType incidentType = GetIncidentType(dr["IncidentTypeId"].ToString());
-                                incidentType.IncidentsCount = Convert.ToInt32(dr["IncidentCount"]);
+                                incidentType.Severity = Convert.ToInt32(dr["IncidentCount"]);
                                 incidentTypes.Add(incidentType);
                             }
                         }
@@ -174,7 +179,55 @@ namespace CrisisCoreWebApi.Controllers
             catch (Exception ex)
             {
             }
+
+            incidentTypes.Add(GetPSIInArea(areaId));
+
             return incidentTypes;
+        }
+
+        [HttpGet]
+        public IncidentType GetPSIInArea(string areaId)
+        {
+            IncidentType incidentType = new IncidentType();
+            incidentType.IncidentTypeId = "HAZE";
+            incidentType.IncidentTypeName = "Haze PSI Level";
+
+            try
+            {
+                string uri = "http://api.nea.gov.sg/api/WebAPI/?dataset=psi_update&keyref=781CF461BB6606AD1260F4D81345157F37A0C67E3301AC5F";
+
+                XmlTextReader reader = new XmlTextReader(uri);
+
+                string neaArea = "";
+
+                if (areaId.Equals("SW"))
+                    neaArea = "rWE";
+                else if (areaId.Equals("NW"))
+                    neaArea = "rNO";
+                else if (areaId.Equals("C"))
+                    neaArea = "rSO";
+                else if (areaId.Equals("NE"))
+                    neaArea = "rCE";
+                else if (areaId.Equals("SE"))
+                    neaArea = "rEA";
+
+                while (!reader.EOF)
+                {
+                    reader.ReadToFollowing("id");
+                    if (reader.ReadElementContentAsString().Equals(neaArea))
+                    {
+                        reader.ReadToFollowing("reading");
+                        reader.MoveToAttribute("value");
+                        incidentType.Severity = Convert.ToInt32(reader.Value);
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            return incidentType;
         }
     }
 }
