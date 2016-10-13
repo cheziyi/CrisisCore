@@ -69,15 +69,16 @@ namespace CrisisCoreWebUI
         protected void lstEmergencies_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtMessage.Text = "Dear " + lstAreas.SelectedItem.Text + " residents, there is a high occurrence of " + lstEmergencies.SelectedItem.Text + " incidents in your area. ";
-
-            if (lstEmergencies.SelectedValue.Equals("DENGUE") || lstEmergencies.SelectedValue.Equals("ZIKA"))
+            if (lstEmergencies.SelectedValue.Equals("HAZE"))
+            {
+                txtMessage.Text = "Dear " + lstAreas.SelectedItem.Text + " residents, the Haze PSI level in your area has reached " + lstEmergencies.SelectedItem.Text + ". ";
+                txtMessage.Text += "Please stay indoors as much as possible, and if necessary, wear a 3M mask.";
+            }
+            else if (lstEmergencies.SelectedValue.Equals("DENGUE") || lstEmergencies.SelectedValue.Equals("ZIKA"))
             {
                 txtMessage.Text += "Please make sure that you do not have any stagnant water as potential breeding grounds for mosquitoes.";
             }
-            else if(lstEmergencies.SelectedValue.Equals("HAZE"))
-            {
-                txtMessage.Text += "Please stay indoors as much as possible, and if necessary, wear a 3M mask.";
-            }
+
             else
             {
                 txtMessage.Text += "Assistance required for evacuation to nearest shelters.";
