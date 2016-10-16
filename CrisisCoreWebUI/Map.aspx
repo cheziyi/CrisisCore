@@ -4,11 +4,23 @@
         #map {
             height: 680px;
         }
+        #legend {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
     </style>
     <div class="row">
         <div class="col-lg-12">
             <div id="map"></div>
-            <div id="legend"></div>
+            <div id="legend">
+                <img src="http://maps.google.com/mapfiles/ms/icons/orange.png"/> Dengue &nbsp &nbsp &nbsp &nbsp
+                <img src="http://maps.google.com/mapfiles/ms/icons/pink.png"/> Zika &nbsp &nbsp &nbsp &nbsp
+                <img src="http://maps.google.com/mapfiles/ms/icons/blue.png"/> Haze &nbsp &nbsp &nbsp &nbsp
+                <img src="http://maps.google.com/mapfiles/ms/icons/green.png"/> Ambulance &nbsp &nbsp &nbsp &nbsp
+                <img src="http://maps.google.com/mapfiles/ms/icons/purple.png"/> Rescue & Evac &nbsp &nbsp &nbsp &nbsp
+                <img src="http://maps.google.com/mapfiles/ms/icons/red.png"/> Fire-fighting &nbsp &nbsp &nbsp &nbsp
+                <img src="http://maps.google.com/mapfiles/ms/icons/yellow.png"/> Gas Leak
+            </div>
         </div>
     </div>
 
@@ -37,6 +49,7 @@
     <script>
         var api = "http://api.crisiscore.cczy.io/";
         var map;
+        var legend;
         var areas;
         var incidents;
         var neCoords = [], nwCoords = [], seCoords = [], cCoords = [], swCoords = [];
@@ -44,6 +57,7 @@
         var ne, nw, se, c, sw;
         
         $(document).ready(function () {
+            // Getting polygons coordinates
             $.ajax({
                 type: "GET",
                 url: api + "Area/GetAllAreas",
@@ -83,6 +97,7 @@
             });
 
             updateTable();
+            window.setInterval(updateMap, 5000); // Recursive call every 5 seconds
         });
 
         function initMap() {
@@ -91,6 +106,7 @@
                 zoom: 12
             });
 
+            // Get incident and create markers
             getIncidents();
 
             // NORTH EAST
@@ -334,6 +350,11 @@
                     "<td>" + sw[2].Severity + "</td>" +
                     "<td>" + sw[3].Severity + "</td>" +
                     "<td>" + sw[4].Severity + "</td></tr>");
+        }
+
+        function updateMap() {
+            getIncidents();
+            updateTable();
         }
     </script>
     
