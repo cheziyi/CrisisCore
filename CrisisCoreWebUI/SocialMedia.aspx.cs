@@ -85,6 +85,12 @@ namespace CrisisCoreWebUI
             }
         }
 
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
 
+            HttpResponseMessage response = client.GetAsync("Twitter/Tweet?status=" + txtMessage.Text.Split('.')[0] + '.').Result;
+            response.EnsureSuccessStatusCode();
+
+        }
     }
 }

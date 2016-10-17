@@ -29,7 +29,7 @@
 
                             <div class="form-group">
                                 <div class="col-lg-9 col-lg-offset-3">
-                                    <asp:Button ID="btnSubmit" class="btn btn-primary" runat="server" Text="Submit" />
+                                    <asp:Button ID="btnSubmit" class="btn btn-primary" runat="server" Text="Submit" OnClick="btnSubmit_Click" />
                                 </div>
                             </div>
                         </fieldset>
