@@ -106,10 +106,8 @@ namespace CrisisCoreWebApi.Controllers
         }
 
         [HttpGet]
-        public Area GetAreaFromPostalCode(string postalCode)
+        public Area GetAreaOfLocation(GeoCoordinate location)
         {
-
-            GeoCoordinate location = GetCoordinate(postalCode);
             if (location == null) return null;
 
             foreach (Area area in areas)

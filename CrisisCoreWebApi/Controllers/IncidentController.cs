@@ -45,7 +45,7 @@ namespace CrisisCoreWebApi.Controllers
                                 incident.UnitNo = dr["UnitNo"].ToString();
                                 incident.AddInfo = dr["AddInfo"].ToString();
                                 incident.Area = new Area(dr["AreaId"].ToString(), null, null);
-                                incident.Location = ac.GetCoordinate(incident.PostalCode);
+                                incident.Location = new GeoCoordinate(Convert.ToDouble(dr["LocLat"]), Convert.ToDouble(dr["LocLon"]));
 
                                 incidents.Add(incident);
                             }
@@ -69,16 +69,19 @@ namespace CrisisCoreWebApi.Controllers
                 using (AreaController ac = new AreaController())
                 using (SqlConnection conn = new SqlConnection(connString))
                 {
-                    String query = "INSERT INTO Incidents(PostalCode,UnitNo,AddInfo,IncidentTypeId,AreaId,ReportName,ReportMobile,ReportDateTime) VALUES(@PostalCode,@UnitNo,@AddInfo,@IncidentTypeId,@AreaId,@ReportName,@ReportMobile,GETDATE())";
+                    String query = "INSERT INTO Incidents(PostalCode,UnitNo,AddInfo,IncidentTypeId,AreaId,ReportName,ReportMobile,ReportDateTime,LocLat,LocLon) VALUES(@PostalCode,@UnitNo,@AddInfo,@IncidentTypeId,@AreaId,@ReportName,@ReportMobile,GETDATE(),@LocLat,@LocLon)";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
+                        GeoCoordinate location = ac.GetCoordinate(incident.PostalCode);
                         cmd.Parameters.AddWithValue("@PostalCode", incident.PostalCode);
                         cmd.Parameters.AddWithValue("@UnitNo", incident.UnitNo);
                         cmd.Parameters.AddWithValue("@AddInfo", incident.AddInfo);
                         cmd.Parameters.AddWithValue("@IncidentTypeId", incident.IncidentType.IncidentTypeId);
-                        cmd.Parameters.AddWithValue("@AreaId", ac.GetAreaFromPostalCode(incident.PostalCode).AreaId);
+                        cmd.Parameters.AddWithValue("@AreaId", ac.GetAreaOfLocation(location).AreaId);
                         cmd.Parameters.AddWithValue("@ReportName", incident.ReportName);
                         cmd.Parameters.AddWithValue("@ReportMobile", incident.ReportMobile);
+                        cmd.Parameters.AddWithValue("@LocLat", location.Latitude);
+                        cmd.Parameters.AddWithValue("@LocLon", location.Longitude);
                         conn.Open();
                         cmd.ExecuteNonQuery();
                     }
