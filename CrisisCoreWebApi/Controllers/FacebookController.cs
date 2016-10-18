@@ -13,8 +13,8 @@ namespace CrisisCoreWebApi.Controllers
         string accessToken = "EAAUPbKRZCyPUBAGyMkowlpPkiQiuAUHPHboE5CAhhgDlpiiKrEjI3WgMgzf1mqOgl9pwBsyK8t4og3VRjbJbP9JafhMfUZAaO1JDZB6kOGG0TtZA0nZAUqH0nMTwFubg6BbWwBjsZBRyZCotbvoZBtgg6YfAfEjsxjJzYL6DqJLYc79Rwf93lLW1";
         string pageId = "1707287282924587";
 
-        [HttpGet]
-        public string PostToPage(string update)
+        [HttpPost]
+        public string PostToPage([FromBody] string update)
         {
             try
             {

@@ -87,10 +87,10 @@ namespace CrisisCoreWebUI
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            HttpResponseMessage response = client.GetAsync("Twitter/Tweet?status=" + txtMessage.Text.Split('.')[0] + '.').Result;
+            HttpResponseMessage response = client.PostAsJsonAsync("Twitter/Tweet", txtMessage.Text.Split('.')[0] + '.').Result;
             response.EnsureSuccessStatusCode();
 
-            response = client.GetAsync("Facebook/PostToPage?update=" + txtMessage.Text).Result;
+            response = client.PostAsJsonAsync("Facebook/PostToPage", txtMessage.Text).Result;
             response.EnsureSuccessStatusCode();
 
             litMessage.Text = "Social media platforms updated succesfully.";

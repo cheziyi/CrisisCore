@@ -22,8 +22,8 @@ namespace CrisisCoreWebApi.Controllers
         /// <summary>
         /// Sends a tweet with the supplied text and returns the response from the Twitter API.
         /// </summary>
-        [HttpGet]
-        public string Tweet(string status)
+        [HttpPost]
+        public string Tweet([FromBody] string status)
         {
             sigHasher = new HMACSHA1(new ASCIIEncoding().GetBytes(string.Format("{0}&{1}", consumerKeySecret, accessTokenSecret)));
 
