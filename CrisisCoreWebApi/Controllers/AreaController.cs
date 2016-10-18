@@ -132,7 +132,7 @@ namespace CrisisCoreWebApi.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Area> GetAllAreas()
+        public List<Area> GetAllAreas()
         {
             return areas;
         }

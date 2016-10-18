@@ -81,16 +81,21 @@ namespace CrisisCoreWebUI
 
             else
             {
-                txtMessage.Text += "Assistance required for evacuation to nearest shelters.";
+                txtMessage.Text += "Assistance required for evacuation to nearest shelters. List of shelters available here: https://www.scdf.gov.sg/content/scdf_internet/en/building-professionals/cd-shelter/public-shelters.html";
             }
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-
             HttpResponseMessage response = client.GetAsync("Twitter/Tweet?status=" + txtMessage.Text.Split('.')[0] + '.').Result;
             response.EnsureSuccessStatusCode();
 
+            response = client.GetAsync("Facebook/PostToPage?update=" + txtMessage.Text).Result;
+            response.EnsureSuccessStatusCode();
+
+            litMessage.Text = "Social media platforms updated succesfully.";
+
+            successMsg.Visible = true;
         }
     }
 }

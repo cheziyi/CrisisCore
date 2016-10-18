@@ -17,7 +17,7 @@ namespace CrisisCoreWebApi.Controllers
         String connString = ConfigurationManager.ConnectionStrings["conn"].ConnectionString;
 
         [HttpGet]
-        public IEnumerable<Incident> GetUnresolvedIncidents()
+        public List<Incident> GetUnresolvedIncidents()
         {
             List<Incident> incidents = new List<Incident>();
             try
@@ -87,10 +87,14 @@ namespace CrisisCoreWebApi.Controllers
                     }
                     IncidentType type = itc.GetIncidentType(incident.IncidentType.IncidentTypeId);
 
-                    string message = "CrisisCore: " + type.Agency.AgencyId + ", " + type.IncidentTypeName +
-                        " assistance required at " + incident.PostalCode + ", " + incident.UnitNo + " (" + incident.AddInfo + ")";
+                    if (type.Agency != null)
+                    {
+                        string message = "CrisisCore: " + type.Agency.AgencyId + ", " + type.IncidentTypeName +
+                            " assistance required at " + incident.PostalCode + ", " + incident.UnitNo + " (" + incident.AddInfo + ")";
 
-                    return mc.SendSms(type.Agency.AgencyContact, message);
+                        return mc.SendSms(type.Agency.AgencyContact, message);
+                    }
+                    return true;
                 }
             }
             catch (Exception ex)
@@ -100,8 +104,8 @@ namespace CrisisCoreWebApi.Controllers
 
         }
 
-        [HttpPost]
-        public bool ResolveIncident(Incident incident)
+        [HttpGet]
+        public bool ResolveIncident(int incidentId)
         {
             try
             {
@@ -111,7 +115,7 @@ namespace CrisisCoreWebApi.Controllers
                     String query = "UPDATE Incidents SET ResolveDateTime=GETDATE() WHERE IncidentId=@IncidentId;";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@IncidentId", incident.IncidentId);
+                        cmd.Parameters.AddWithValue("@IncidentId", incidentId);
                         conn.Open();
                         cmd.ExecuteNonQuery();
                     }

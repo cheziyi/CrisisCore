@@ -74,7 +74,7 @@ namespace CrisisCoreWebApi.Controllers
 
 
         [HttpGet]
-        public IEnumerable<IncidentType> GetIncidentTypes()
+        public List<IncidentType> GetIncidentTypes()
         {
             List<IncidentType> incidentTypes = new List<IncidentType>();
             try
@@ -115,7 +115,7 @@ namespace CrisisCoreWebApi.Controllers
 
 
         [HttpGet]
-        public IEnumerable<IncidentType> GetIncidentTypesInArea(string areaId)
+        public List<IncidentType> GetIncidentTypesInArea(string areaId)
         {
             List<IncidentType> incidentTypes = new List<IncidentType>();
             try
@@ -151,7 +151,7 @@ namespace CrisisCoreWebApi.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<IncidentType> GetRecentIncidentTypesInArea(string areaId)
+        public List<IncidentType> GetRecentIncidentTypesInArea(string areaId)
         {
             List<IncidentType> incidentTypes = new List<IncidentType>();
             try

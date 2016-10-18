@@ -10,11 +10,11 @@ namespace CrisisCoreWebApi.Controllers
 {
     public class TwitterController : ApiController
     {
-        const string TwitterApiBaseUrl = "https://api.twitter.com/1.1/";
-        const string consumerKey = "sUXovK3GAYMGJVMF6Gni471YS";
-        const string consumerKeySecret = "pWNOtefrnTBSfvt4fJGnVQaf2fmRjY85tqi8dYdvCXGo4rfh01";
-        const string accessToken = "775923962165415936-AOy9OvRiUr4CqMoiHxlqlfvTBDQitEA";
-        const string accessTokenSecret = "6BoLGSspbyr2RI1kUW8iiGMKunJYKTUfApssjoALrQDf1";
+        string TwitterApiBaseUrl = "https://api.twitter.com/1.1/";
+        string consumerKey = "sUXovK3GAYMGJVMF6Gni471YS";
+        string consumerKeySecret = "pWNOtefrnTBSfvt4fJGnVQaf2fmRjY85tqi8dYdvCXGo4rfh01";
+        string accessToken = "775923962165415936-AOy9OvRiUr4CqMoiHxlqlfvTBDQitEA";
+        string accessTokenSecret = "6BoLGSspbyr2RI1kUW8iiGMKunJYKTUfApssjoALrQDf1";
         HMACSHA1 sigHasher;
         readonly DateTime epochUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 

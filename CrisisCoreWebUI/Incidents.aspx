@@ -3,7 +3,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <asp:Panel ID="successMsg" class="alert alert-success fade in" runat="server" Visible="false">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Success!</strong> <asp:Literal ID="litMessage" runat="server"></asp:Literal>
+        <strong><asp:Literal ID="litStatus" runat="server"></asp:Literal></strong>
+        <asp:Literal ID="litMessage" runat="server"></asp:Literal>
     </asp:Panel>
     <div class="row">
         <div class="well col-lg-6">
@@ -68,6 +69,7 @@
                             <th>Postal Code</th>
                             <th>Unit No.</th>
                             <th>Reported Time</th>
+                            <th>Resolve Incident?</th>
                             <%--<th><asp:Button ID="btnResolve" class="btn btn-primary" runat="server" Text="Resolve" OnClick="btnResolve_Click" /></th>--%>
                         </tr>
                     </thead>
