@@ -49,6 +49,7 @@
     <script>
         var api = "http://api.crisiscore.cczy.io/";
         var map;
+        var markers = [];
         var legend;
         var areas;
         var incidents;
@@ -179,60 +180,66 @@
                 }
             });
 
+            // Remove markers from map
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(null);
+            }
+
+            markers = [];
             for (var key in incidents) {
+                var marker;
                 switch (incidents[key].IncidentType.IncidentTypeId) {
                     case "AMBL":
-                        var marker = new google.maps.Marker({
+                        marker = new google.maps.Marker({
                             position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
-                            icon: "http://maps.google.com/mapfiles/ms/icons/green.png",
-                            map: map
+                            icon: "http://maps.google.com/mapfiles/ms/icons/green.png"
                         });
                         break;
                     case "DENGUE":
-                        var marker = new google.maps.Marker({
+                        marker = new google.maps.Marker({
                             position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
-                            icon: "http://maps.google.com/mapfiles/ms/icons/orange.png",
-                            map: map
+                            icon: "http://maps.google.com/mapfiles/ms/icons/orange.png"
                         });
                         break;
                     case "EVAC":
-                        var marker = new google.maps.Marker({
+                        marker = new google.maps.Marker({
                             position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
-                            icon: "http://maps.google.com/mapfiles/ms/icons/purple.png",
-                            map: map
+                            icon: "http://maps.google.com/mapfiles/ms/icons/purple.png"
                         });
                         break;
                     case "FIRE":
-                        var marker = new google.maps.Marker({
+                        marker = new google.maps.Marker({
                             position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
-                            icon: "http://maps.google.com/mapfiles/ms/icons/red.png",
-                            map: map
+                            icon: "http://maps.google.com/mapfiles/ms/icons/red.png"
                         });
                         break;
                     case "GAS":
-                        var marker = new google.maps.Marker({
+                        marker = new google.maps.Marker({
                             position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
-                            icon: "http://maps.google.com/mapfiles/ms/icons/yellow.png",
-                            map: map
+                            icon: "http://maps.google.com/mapfiles/ms/icons/yellow.png"
                         });
                         break;
                     case "ZIKA":
-                        var marker = new google.maps.Marker({
+                        marker = new google.maps.Marker({
                             position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
-                            icon: "http://maps.google.com/mapfiles/ms/icons/pink.png",
-                            map: map
+                            icon: "http://maps.google.com/mapfiles/ms/icons/pink.png"
                         });
                         break;
                     case "HAZE":
-                        var marker = new google.maps.Marker({
+                        marker = new google.maps.Marker({
                             position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
-                            icon: "http://maps.google.com/mapfiles/ms/icons/blue.png",
-                            map: map
+                            icon: "http://maps.google.com/mapfiles/ms/icons/blue.png"
                         });
                         break;
                     default:
                         break;
                 }
+                markers.push(marker);
+            }
+
+            // Add markers to map
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(map);
             }
         }
 
