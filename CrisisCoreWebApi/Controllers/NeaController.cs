@@ -74,7 +74,7 @@ namespace CrisisCoreWebApi.Controllers
                     weatherCond.Location = new GeoCoordinate();
                     reader.ReadToFollowing("area");
                     reader.MoveToAttribute("forecast");
-                    weatherCond.ImageUri = "http://www.nea.gov.sg/Html/Nea/images/common/weather/50px/" + reader.Value + ".png";
+                    weatherCond.ImageUri = "http://www.nea.gov.sg/Html/Nea/images/common/weather/23px/" + reader.Value + ".png";
                     reader.MoveToAttribute("lat");
                     weatherCond.Location.Latitude = Convert.ToDouble(reader.Value);
                     reader.MoveToAttribute("lon");
