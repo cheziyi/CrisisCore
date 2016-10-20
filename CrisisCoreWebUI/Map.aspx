@@ -8,6 +8,28 @@
             padding-top: 20px;
             padding-bottom: 20px;
         }
+        .box {
+            float: left;
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            border: 1px solid rgba(0, 0, 0, .2);
+        }
+        .ne {
+            background: #FF7DB8;
+        }
+        .nw {
+            background: #A8DDAD;
+        }
+        .se {
+            background: #D4EFBF;
+        }
+        .c {
+            background: #EAC97F;
+        }
+        .sw {
+            background: #DB89EF;
+        }
     </style>
     <div class="row">
         <div class="col-lg-12">
@@ -51,8 +73,7 @@
         var map;
         var markers = [];
         var legend;
-        var areas;
-        var incidents;
+        var areas, weather, incidents;
         var neCoords = [], nwCoords = [], seCoords = [], cCoords = [], swCoords = [];
         var nePolygon, nwPolygon, sePolygon, cPolygon, swPolygon;
         var ne, nw, se, c, sw;
@@ -100,6 +121,11 @@
             updateTable();
             window.setInterval(updateMap, 5000); // Recursive call every 5 seconds
         });
+
+        function updateMap() {
+            getIncidents();
+            updateTable();
+        }
 
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
@@ -167,6 +193,34 @@
         }
 
         function getIncidents() {
+            // Remove markers from map
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(null);
+            }
+            markers = [];
+
+            $.ajax({
+                type: "GET",
+                url: api + "Nea/GetWeather",
+                contentType: "application/json",
+                async: false,
+                success: function (data) {
+                    weather = data;
+
+                    for (var key in weather) {
+                        var marker;
+                        marker = new google.maps.Marker({
+                            position: { lat: weather[key].Location.Latitude, lng: weather[key].Location.Longitude },
+                            icon: weather[key].ImageUri
+                        });
+                        markers.push(marker);
+                    }
+                },
+                error: function (data) {
+                    alert("Error retrieving data. Please refresh the page.");
+                }
+            });
+
             $.ajax({
                 type: "GET",
                 url: api + "Incident/GetUnresolvedIncidents",
@@ -174,68 +228,62 @@
                 async: false,
                 success: function (data) {
                     incidents = data;
+
+                    for (var key in incidents) {
+                        var marker;
+                        switch (incidents[key].IncidentType.IncidentTypeId) {
+                            case "AMBL":
+                                marker = new google.maps.Marker({
+                                    position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
+                                    icon: "http://maps.google.com/mapfiles/ms/icons/green.png"
+                                });
+                                break;
+                            case "DENGUE":
+                                marker = new google.maps.Marker({
+                                    position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
+                                    icon: "http://maps.google.com/mapfiles/ms/icons/orange.png"
+                                });
+                                break;
+                            case "EVAC":
+                                marker = new google.maps.Marker({
+                                    position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
+                                    icon: "http://maps.google.com/mapfiles/ms/icons/purple.png"
+                                });
+                                break;
+                            case "FIRE":
+                                marker = new google.maps.Marker({
+                                    position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
+                                    icon: "http://maps.google.com/mapfiles/ms/icons/red.png"
+                                });
+                                break;
+                            case "GAS":
+                                marker = new google.maps.Marker({
+                                    position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
+                                    icon: "http://maps.google.com/mapfiles/ms/icons/yellow.png"
+                                });
+                                break;
+                            case "ZIKA":
+                                marker = new google.maps.Marker({
+                                    position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
+                                    icon: "http://maps.google.com/mapfiles/ms/icons/pink.png"
+                                });
+                                break;
+                            case "HAZE":
+                                marker = new google.maps.Marker({
+                                    position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
+                                    icon: "http://maps.google.com/mapfiles/ms/icons/blue.png"
+                                });
+                                break;
+                            default:
+                                break;
+                        }
+                        markers.push(marker);
+                    }
                 },
                 error: function (data) {
                     alert("Error retrieving data. Please refresh the page.");
                 }
             });
-
-            // Remove markers from map
-            for (var i = 0; i < markers.length; i++) {
-                markers[i].setMap(null);
-            }
-
-            markers = [];
-            for (var key in incidents) {
-                var marker;
-                switch (incidents[key].IncidentType.IncidentTypeId) {
-                    case "AMBL":
-                        marker = new google.maps.Marker({
-                            position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
-                            icon: "http://maps.google.com/mapfiles/ms/icons/green.png"
-                        });
-                        break;
-                    case "DENGUE":
-                        marker = new google.maps.Marker({
-                            position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
-                            icon: "http://maps.google.com/mapfiles/ms/icons/orange.png"
-                        });
-                        break;
-                    case "EVAC":
-                        marker = new google.maps.Marker({
-                            position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
-                            icon: "http://maps.google.com/mapfiles/ms/icons/purple.png"
-                        });
-                        break;
-                    case "FIRE":
-                        marker = new google.maps.Marker({
-                            position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
-                            icon: "http://maps.google.com/mapfiles/ms/icons/red.png"
-                        });
-                        break;
-                    case "GAS":
-                        marker = new google.maps.Marker({
-                            position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
-                            icon: "http://maps.google.com/mapfiles/ms/icons/yellow.png"
-                        });
-                        break;
-                    case "ZIKA":
-                        marker = new google.maps.Marker({
-                            position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
-                            icon: "http://maps.google.com/mapfiles/ms/icons/pink.png"
-                        });
-                        break;
-                    case "HAZE":
-                        marker = new google.maps.Marker({
-                            position: { lat: incidents[key].Location.Latitude, lng: incidents[key].Location.Longitude },
-                            icon: "http://maps.google.com/mapfiles/ms/icons/blue.png"
-                        });
-                        break;
-                    default:
-                        break;
-                }
-                markers.push(marker);
-            }
 
             // Add markers to map
             for (var i = 0; i < markers.length; i++) {
@@ -317,7 +365,7 @@
             // ARRAY[0] AMBL, ARRAY[1] DENGUE, ARRAY[2] EVAC, ARRAY[3] FIRE, ARRAY[4] GAS, ARRAY [5] ZIKA, ARRAY[6] HAZE
             // TABLE DENGUE | ZIKA | HAZE | AMBULANCE | RESCUE & EVAC | FIRE-FIGHTING | GAS LEAK
             $("#table tbody").html(
-                "<tr><th>North East</th>" +
+                "<tr><th><div class='box ne'></div>North East</th>" +
                     "<td>" + ne[1].Severity + "</td>" +
                     "<td>" + ne[5].Severity + "</td>" +
                     "<td>" + ne[6].Severity + "</td>" +
@@ -325,7 +373,7 @@
                     "<td>" + ne[2].Severity + "</td>" +
                     "<td>" + ne[3].Severity + "</td>" +
                     "<td>" + ne[4].Severity + "</td></tr>" +
-                "<tr><th>North West</th>" +
+                "<tr><th><div class='box nw'></div>North West</th>" +
                     "<td>" + nw[1].Severity + "</td>" +
                     "<td>" + nw[5].Severity + "</td>" +
                     "<td>" + nw[6].Severity + "</td>" +
@@ -333,7 +381,7 @@
                     "<td>" + nw[2].Severity + "</td>" +
                     "<td>" + nw[3].Severity + "</td>" +
                     "<td>" + nw[4].Severity + "</td></tr>" +
-                "<tr><th>South East</th>" +
+                "<tr><th><div class='box se'></div>South East</th>" +
                     "<td>" + se[1].Severity + "</td>" +
                     "<td>" + se[5].Severity + "</td>" +
                     "<td>" + se[6].Severity + "</td>" +
@@ -341,7 +389,7 @@
                     "<td>" + se[2].Severity + "</td>" +
                     "<td>" + se[3].Severity + "</td>" +
                     "<td>" + se[4].Severity + "</td></tr>" +
-                "<tr><th>Central</th>" +
+                "<tr><th><div class='box c'></div>Central</th>" +
                     "<td>" + c[1].Severity + "</td>" +
                     "<td>" + c[5].Severity + "</td>" +
                     "<td>" + c[6].Severity + "</td>" +
@@ -349,7 +397,7 @@
                     "<td>" + c[2].Severity + "</td>" +
                     "<td>" + c[3].Severity + "</td>" +
                     "<td>" + c[4].Severity + "</td></tr>" +
-                "<tr><th>South West</th>" +
+                "<tr><th><div class='box sw'></div>South West</th>" +
                     "<td>" + sw[1].Severity + "</td>" +
                     "<td>" + sw[5].Severity + "</td>" +
                     "<td>" + sw[6].Severity + "</td>" +
@@ -357,11 +405,6 @@
                     "<td>" + sw[2].Severity + "</td>" +
                     "<td>" + sw[3].Severity + "</td>" +
                     "<td>" + sw[4].Severity + "</td></tr>");
-        }
-
-        function updateMap() {
-            getIncidents();
-            updateTable();
         }
     </script>
     
