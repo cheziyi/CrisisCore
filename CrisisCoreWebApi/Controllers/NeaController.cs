@@ -5,10 +5,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Xml;
 
 namespace CrisisCoreWebApi.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class NeaController : ApiController
     {
         [HttpGet]
@@ -54,6 +56,46 @@ namespace CrisisCoreWebApi.Controllers
                 return null;
             }
             return incidentType;
+        }
+
+        [HttpGet]
+        public List<WeatherCondition> GetWeather()
+        {
+            List<WeatherCondition> weatherConditions = new List<WeatherCondition>();
+            try
+            {
+                string uri = "http://api.nea.gov.sg/api/WebAPI/?dataset=2hr_nowcast&keyref=781CF461BB6606AD1260F4D81345157F37A0C67E3301AC5F";
+
+                XmlTextReader reader = new XmlTextReader(uri);
+
+                while (!reader.EOF)
+                {
+                    WeatherCondition weatherCond = new WeatherCondition();
+                    weatherCond.Location = new GeoCoordinate();
+                    reader.ReadToFollowing("area");
+                    reader.MoveToAttribute("forecast");
+                    weatherCond.ImageUri = "http://www.nea.gov.sg/Html/Nea/images/common/weather/50px/" + reader.Value + ".png";
+                    reader.MoveToAttribute("lat");
+                    weatherCond.Location.Latitude = Convert.ToDouble(reader.Value);
+                    reader.MoveToAttribute("lon");
+                    weatherCond.Location.Longitude = Convert.ToDouble(reader.Value);
+                    reader.MoveToAttribute("name");
+                    weatherCond.TownName = reader.Value;
+                    weatherConditions.Add(weatherCond);
+                }
+            }
+            catch (Exception ex)
+            {
+                // return null;
+            }
+            return weatherConditions;
+        }
+
+        public class WeatherCondition
+        {
+            public string TownName { get; set; }
+            public GeoCoordinate Location { get; set; }
+            public string ImageUri { get; set; }
         }
     }
 }
