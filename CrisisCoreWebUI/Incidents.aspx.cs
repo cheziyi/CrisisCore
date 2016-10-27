@@ -17,6 +17,16 @@ namespace CrisisCoreWebUI
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Account account = (Account)(Session["account"]);
+            if (account != null)
+            {
+                if (account.AccessLevel < 2)
+                {
+                    Response.Redirect("~/Login.aspx");
+                }
+            }
+  
+
             if (client == null)
             {
                 client = new HttpClient();

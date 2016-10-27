@@ -42,12 +42,13 @@ namespace CrisisCoreWebUI
             }
             else
             {
+                litMessage.Text = "Please try again.";
+                litStatus.Text = "Invalid username/password.";
+                successMsg.CssClass = "alert alert-danger fade in";
+                successMsg.Visible = true;
                 Session.Remove("account");
-            }
 
-            
-            // Return the URI of the created resource.
-            //   return response.Headers.Location;
+            }
         }
 
         static Account ValidateLogin(Account account)

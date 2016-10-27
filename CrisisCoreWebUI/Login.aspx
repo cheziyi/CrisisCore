@@ -20,7 +20,32 @@
 <body>
     <div class="container">
         <form class="form-signin" id="form1" runat="server">
-
+            <asp:ScriptManager runat="server">
+                <Scripts>
+                    <%--To learn more about bundling scripts in ScriptManager see http://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                    <%--Framework Scripts--%>
+                    <asp:ScriptReference Name="MsAjaxBundle" />
+                    <asp:ScriptReference Name="jquery" />
+                    <asp:ScriptReference Name="bootstrap" />
+                    <asp:ScriptReference Name="respond" />
+                    <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                    <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                    <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                    <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                    <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                    <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                    <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                    <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                    <asp:ScriptReference Name="WebFormsBundle" />
+                    <%--Site Scripts--%>
+                </Scripts>
+            </asp:ScriptManager>
+            <asp:Panel ID="successMsg" class="alert alert-success fade in" runat="server" Visible="false">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>
+                    <asp:Literal ID="litStatus" runat="server"></asp:Literal></strong><br />
+                <asp:Literal ID="litMessage" runat="server"></asp:Literal>
+            </asp:Panel>
 
 
 
@@ -35,7 +60,7 @@
                     Remember me
                 </label>
             </div>--%>
-            <asp:Button ID="btnSubmit"  class="btn btn-lg btn-primary btn-block" runat="server" Text="Log in" OnClick="btnSubmit_Click" />
+            <asp:Button ID="btnSubmit" class="btn btn-lg btn-primary btn-block" runat="server" Text="Log in" OnClick="btnSubmit_Click" />
         </form>
 
     </div>

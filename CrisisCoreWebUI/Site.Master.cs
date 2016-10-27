@@ -16,16 +16,29 @@ namespace CrisisCoreWebUI
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //account = (Account)(Session["account"]);
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetExpires(DateTime.Now.AddDays(-1));
+            Response.Cache.SetNoStore();
 
-            //if (account == null)
-            //{
-            //    Response.Redirect("~/Login.aspx");
-            //}
-            //else
-            //{
-            //    litUser.Text = account.AccountId;
-            //}
+            account = (Account)(Session["account"]);
+
+            if (account == null)
+            {
+                Response.Redirect("~/Login.aspx");
+            }
+            else
+            {
+                litUser.Text = account.AccountId;
+                if(account.AccessLevel>0)
+                {
+                    plcMapNav.Visible = true;
+                }
+                if (account.AccessLevel > 1)
+                {
+                    plcSocialNav.Visible = true;
+                    plcIncidentNav.Visible = true;
+                }
+            }
 
 
         }

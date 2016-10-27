@@ -51,11 +51,10 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">CrisisCore</a>
+                    <a runat="server" class="navbar-brand" href="~/">CrisisCore</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a runat="server" href="~/">Home</a></li>
                         <li class="dropdown">
                             <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="~/">User:
                                 <asp:Literal ID="litUser" runat="server"></asp:Literal><span class="caret"></span></a>
@@ -72,9 +71,15 @@
             <div class="row">
                 <div class="col-sm-3 col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
-                        <li><a runat="server" href="~/Map">Map</a></li>
-                        <li><a runat="server" href="~/SocialMedia">Social Media</a></li>
-                        <li><a runat="server" href="~/Incidents">Incidents</a></li>
+                        <asp:PlaceHolder ID="plcMapNav" runat="server" Visible="false">
+                            <li><a runat="server" href="~/Map">Map</a></li>
+                        </asp:PlaceHolder>
+                        <asp:PlaceHolder ID="plcSocialNav" runat="server" Visible="false">
+                            <li><a runat="server" href="~/SocialMedia">Social Media</a></li>
+                        </asp:PlaceHolder>
+                        <asp:PlaceHolder ID="plcIncidentNav" runat="server" Visible="false">
+                            <li><a runat="server" href="~/Incidents">Incidents</a></li>
+                        </asp:PlaceHolder>
                     </ul>
                 </div>
 
@@ -86,7 +91,7 @@
                         <p>&copy; <%: DateTime.Now.Year %> - My ASP.NET Application</p>
                     </footer>--%>
                 </div>
-        </div>
+            </div>
         </div>
     </form>
     <script>

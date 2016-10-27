@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CrisisCoreModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,14 @@ namespace CrisisCoreWebUI
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            Account account = (Account)(Session["account"]);
+            if (account != null)
+            {
+                if (account.AccessLevel < 1)
+                {
+                    Response.Redirect("~/Login.aspx");
+                }
+            }
         }
     }
 }
