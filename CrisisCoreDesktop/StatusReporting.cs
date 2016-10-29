@@ -13,12 +13,12 @@ using System.Windows.Forms;
 
 namespace CrisisCoreDesktop
 {
-    public partial class Form1 : Form
+    public partial class StatusReporting : Form
     {
         static public HttpClient client;
         static Timer timer = new Timer();
 
-        public Form1()
+        public StatusReporting()
         {
             InitializeComponent();
             client = new HttpClient();

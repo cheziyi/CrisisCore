@@ -1,6 +1,6 @@
 ﻿namespace CrisisCoreDesktop
 {
-    partial class Form1
+    partial class StatusReporting
     {
         /// <summary>
         /// Required designer variable.
