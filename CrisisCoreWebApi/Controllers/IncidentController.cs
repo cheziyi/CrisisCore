@@ -109,7 +109,6 @@ namespace CrisisCoreWebApi.Controllers
         {
             try
             {
-                using (AreaController ac = new AreaController())
                 using (SqlConnection conn = new SqlConnection(connString))
                 {
                     String query = "UPDATE Incidents SET ResolveDateTime=GETDATE() WHERE IncidentId=@IncidentId;";
