@@ -1,5 +1,8 @@
 ﻿namespace CrisisCoreModels
 {
+    /// <summary>
+    ///  This describes an area in Singapore, bounded by a array of geographic coordinates.
+    /// </summary>
     public class Area
     {
         public string AreaId { get; set; }

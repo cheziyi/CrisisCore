@@ -1,5 +1,8 @@
 ﻿namespace CrisisCoreModels
 {
+    /// <summary>
+    ///  This describes a type of incident.
+    /// </summary>
     public class IncidentType
     {
 

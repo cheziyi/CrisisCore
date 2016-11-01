@@ -2,6 +2,9 @@
 
 namespace CrisisCoreModels
 {
+    /// <summary>
+    ///  This describes a single incident.
+    /// </summary>
     public class Incident
     {
         public int IncidentId { get; set; }

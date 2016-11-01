@@ -1,5 +1,8 @@
 ﻿namespace CrisisCoreModels
 {
+    /// <summary>
+    ///  This describes a government agency for responding to incidents.
+    /// </summary>
     public class Agency
     {
         public string AgencyId { get; set; }

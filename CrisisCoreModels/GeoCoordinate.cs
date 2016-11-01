@@ -1,5 +1,8 @@
 ﻿namespace CrisisCoreModels
 {
+    /// <summary>
+    ///  This describes an set of latitude and longitude coordinates.
+    /// </summary>
     public class GeoCoordinate
     {
 
