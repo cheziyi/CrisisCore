@@ -11,11 +11,22 @@ using System.Web.Http.Cors;
 
 namespace CrisisCoreWebApi.Controllers
 {
+    /// <summary>
+    /// IncidentController web service class for retrieval and updating of incidents in database.
+    /// </summary>
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class IncidentController : ApiController
     {
+        /// <summary>
+        /// SQL connection string from web.config
+        /// </summary>
         String connString = ConfigurationManager.ConnectionStrings["conn"].ConnectionString;
 
+        //TODO: Continue commenting here
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public List<Incident> GetUnresolvedIncidents()
         {
