@@ -10,7 +10,7 @@ namespace CrisisCoreWebApi.Controllers
 {
     public class FacebookController : ApiController
     {   
-       //declare access token
+       //declare access token which provides temporary access to facebook APIs
        string accessToken = "EAAUPbKRZCyPUBAGyMkowlpPkiQiuAUHPHboE5CAhhgDlpiiKrEjI3WgMgzf1mqOgl9pwBsyK8t4og3VRjbJbP9JafhMfUZAaO1JDZB6kOGG0TtZA0nZAUqH0nMTwFubg6BbWwBjsZBRyZCotbvoZBtgg6YfAfEjsxjJzYL6DqJLYc79Rwf93lLW1";
        //declare page id
        string pageId = "1707287282924587";
