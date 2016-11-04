@@ -81,4 +81,9 @@
             </fieldset>
         </div>
     </div>
+    <script>
+        function ResolveIncidentConfirmation() {
+            return confirm("Are you sure you want to resolve this incident?");
+        }
+    </script>
 </asp:Content>

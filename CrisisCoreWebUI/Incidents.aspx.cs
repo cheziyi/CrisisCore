@@ -25,7 +25,7 @@ namespace CrisisCoreWebUI
                     Response.Redirect("~/Login.aspx");
                 }
             }
-  
+
 
             if (client == null)
             {
@@ -84,6 +84,7 @@ namespace CrisisCoreWebUI
                 btnResolve.ControlStyle.CssClass = "btn btn-success btn-sm";
                 btnResolve.Attributes.Add("formnovalidate", "formnovalidate");
                 btnResolve.Click += new EventHandler(btnResolve_Click);
+                btnResolve.OnClientClick = "if ( ! ResolveIncidentConfirmation()) return false;";
 
                 Literal lit2 = new Literal();
                 lit2.Text = "</td></tr>";
