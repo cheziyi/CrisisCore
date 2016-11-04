@@ -1,4 +1,4 @@
-﻿using Facebook;
+﻿using Facebook;    //for Facebook Graph API, that allows app to read/login/write to Facebook on user's behalf 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +10,10 @@ namespace CrisisCoreWebApi.Controllers
 {
     public class FacebookController : ApiController
     {   
-       //declare access token which provides temporary access to facebook APIs
+       //declare user access token which provides CrisisCore facebook app permission to post
        string accessToken = "EAAUPbKRZCyPUBAGyMkowlpPkiQiuAUHPHboE5CAhhgDlpiiKrEjI3WgMgzf1mqOgl9pwBsyK8t4og3VRjbJbP9JafhMfUZAaO1JDZB6kOGG0TtZA0nZAUqH0nMTwFubg6BbWwBjsZBRyZCotbvoZBtgg6YfAfEjsxjJzYL6DqJLYc79Rwf93lLW1";
-       //declare page id
+       
+       //facebook page id for CrisisCore app
        string pageId = "1707287282924587";
 
         [HttpPost]
@@ -20,11 +21,13 @@ namespace CrisisCoreWebApi.Controllers
         {
             try
             {
-            //sets the ability to pass in an access token
+                //delare instance of FacebookClient class for making requests to the Graph API through user access token
                 var fb = new FacebookClient(accessToken);
-            //post user's message to facebook
-                dynamic result = fb.Post(pageId + "/feed", new { message = update });
-            //returns the result's id
+                
+                //posts message string to facebook
+                dynamic result = fb.Post(pageId + "/feed", new { message = update });             
+                
+                //check for success message posted on facebook
                 return result.id;
             }
             catch (Exception) { }
