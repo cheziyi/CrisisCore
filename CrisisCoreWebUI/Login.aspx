@@ -14,7 +14,6 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/Login.css" rel="stylesheet" />
-    <%--<webopt:BundleReference runat="server" Path="~/Content/css" />--%>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 </head>
 <body>
@@ -22,7 +21,6 @@
         <form class="form-signin" id="form1" runat="server">
             <asp:ScriptManager runat="server">
                 <Scripts>
-                    <%--To learn more about bundling scripts in ScriptManager see http://go.microsoft.com/fwlink/?LinkID=301884 --%>
                     <%--Framework Scripts--%>
                     <asp:ScriptReference Name="MsAjaxBundle" />
                     <asp:ScriptReference Name="jquery" />
@@ -37,9 +35,9 @@
                     <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
                     <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
                     <asp:ScriptReference Name="WebFormsBundle" />
-                    <%--Site Scripts--%>
                 </Scripts>
             </asp:ScriptManager>
+            <%-- Display of success or error message --%>
             <asp:Panel ID="successMsg" class="alert alert-success fade in" runat="server" Visible="false">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <strong>
@@ -47,24 +45,14 @@
                 <asp:Literal ID="litMessage" runat="server"></asp:Literal>
             </asp:Panel>
 
-
-
+            <%-- Form display for user credentials --%>
             <h2 class="form-signin-heading">Please log in</h2>
             <label for="txtAccountId" class="sr-only">Account ID</label>
             <asp:TextBox ID="txtAccountId" runat="server" class="form-control" placeholder="Account ID" required autofocus></asp:TextBox>
             <label for="inputPassword" class="sr-only">Password</label>
             <asp:TextBox ID="txtPassword" type="password" runat="server" class="form-control" placeholder="Password" required></asp:TextBox>
-            <%--<div class="checkbox">
-                <label>
-                    <input type="checkbox" value="remember-me">
-                    Remember me
-                </label>
-            </div>--%>
             <asp:Button ID="btnSubmit" class="btn btn-lg btn-primary btn-block" runat="server" Text="Log in" OnClick="btnSubmit_Click" />
         </form>
-
     </div>
-    <!-- /container -->
-
 </body>
 </html>

@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="Update Social Media" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="SocialMedia.aspx.cs" Inherits="CrisisCoreWebUI.SocialMedia" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <%-- Display of success or error message --%>
     <asp:Panel ID="successMsg" class="alert alert-success fade in" runat="server" Visible="false">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <strong>Success!</strong>
@@ -8,7 +9,7 @@
     </asp:Panel>
     <div class="row">
         <div class="col-lg-6">
-
+            <%-- Form display for user to input message content to post into social media --%>
             <div class="form-horizontal">
                 <fieldset>
                     <legend>Update Social Media</legend>

@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="Incidents" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Incidents.aspx.cs" Inherits="CrisisCoreWebUI.Incidents" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <%-- Display of success or error message --%>
     <asp:Panel ID="successMsg" class="alert alert-success fade in" runat="server" Visible="false">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <strong>
@@ -9,6 +10,7 @@
     </asp:Panel>
     <div class="row">
         <div class="well col-lg-6">
+            <%-- Form display for user to input new incident information --%>
             <div class="form-horizontal">
                 <fieldset>
                     <legend>Add New Incident</legend>
@@ -57,6 +59,7 @@
             </div>
         </div>
     </div>
+    <%-- Table display for the information on unresolved incidents --%>
     <div class="row">
         <div class="col-lg-12">
             <fieldset>
@@ -71,7 +74,6 @@
                             <th>Unit No.</th>
                             <th>Reported Time</th>
                             <th>Resolve Incident?</th>
-                            <%--<th><asp:Button ID="btnResolve" class="btn btn-primary" runat="server" Text="Resolve" OnClick="btnResolve_Click" /></th>--%>
                         </tr>
                     </thead>
                     <tbody>
@@ -81,7 +83,9 @@
             </fieldset>
         </div>
     </div>
+    <%-- Embedded JavaScript --%>
     <script>
+        // Prompt for resolve confirmation.
         function ResolveIncidentConfirmation() {
             return confirm("Are you sure you want to resolve this incident?");
         }
