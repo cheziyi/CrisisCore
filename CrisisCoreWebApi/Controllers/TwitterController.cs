@@ -8,8 +8,12 @@ using System.Web.Http;
 
 namespace CrisisCoreWebApi.Controllers
 {
+    /// <summary>
+    /// TwitterController web service for the authentication and posting of Twitter message using Twitter API
+    /// </summary>
     public class TwitterController : ApiController
     {
+        //Initialization of variables
         string TwitterApiBaseUrl = "https://api.twitter.com/1.1/";
         string consumerKey = "sUXovK3GAYMGJVMF6Gni471YS";
         string consumerKeySecret = "pWNOtefrnTBSfvt4fJGnVQaf2fmRjY85tqi8dYdvCXGo4rfh01";
@@ -18,10 +22,11 @@ namespace CrisisCoreWebApi.Controllers
         HMACSHA1 sigHasher;
         readonly DateTime epochUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-
         /// <summary>
         /// Sends a tweet with the supplied text and returns the response from the Twitter API.
         /// </summary>
+        /// <param name="status"></param>
+        /// <returns>Response from Twitter API</returns>
         [HttpPost]
         public string Tweet([FromBody] string status)
         {
@@ -35,6 +40,12 @@ namespace CrisisCoreWebApi.Controllers
             return SendRequest("statuses/update.json", data);
         }
 
+        /// <summary>
+        /// Add URL, form data and authentication
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="data"></param>
+        /// <returns>URL, oAuthHeader, form data</returns>
         string SendRequest(string url, Dictionary<string, string> data)
         {
             var fullUrl = TwitterApiBaseUrl + url;
@@ -65,6 +76,9 @@ namespace CrisisCoreWebApi.Controllers
         /// <summary>
         /// Generate an OAuth signature from OAuth header values.
         /// </summary>
+        /// <param name="url"></param>
+        /// <param name="data"></param>
+        /// <returns>OAuth signature</returns>
         string GenerateSignature(string url, Dictionary<string, string> data)
         {
             var sigString = string.Join(
@@ -88,6 +102,8 @@ namespace CrisisCoreWebApi.Controllers
         /// <summary>
         /// Generate the raw OAuth HTML header from the values (including signature).
         /// </summary>
+        /// <param name="data"></param>
+        /// <returns>OAuth HTML header</returns>
         string GenerateOAuthHeader(Dictionary<string, string> data)
         {
             return "OAuth " + string.Join(
@@ -102,6 +118,10 @@ namespace CrisisCoreWebApi.Controllers
         /// <summary>
         /// Send HTTP Request and return the response.
         /// </summary>
+        /// <param name="fullUrl"></param>
+        /// <param name="oAuthHeader"></param>
+        /// <param name="formData"></param>
+        /// <returns>Response</returns>
         string SendRequest(string fullUrl, string oAuthHeader, FormUrlEncodedContent formData)
         {
             using (var http = new HttpClient())
