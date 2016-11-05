@@ -23,24 +23,34 @@
                     <div class="form-group">
                         <label for="txtName" class="col-lg-3 control-label">Name:</label>
                         <div class="col-lg-9">
-                            <asp:TextBox ID="txtName" runat="server" class="form-control" required></asp:TextBox>
+                            <%-- Textbox for reporter's name with required validation --%>
+                            <asp:RequiredFieldValidator ID="requiredName" runat="server" ErrorMessage="Please enter the reporter's name" ControlToValidate="txtName" Display="Dynamic" ValidationGroup="AddIncident"></asp:RequiredFieldValidator>
+                            <asp:TextBox ID="txtName" runat="server" class="form-control"></asp:TextBox>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="txtMobile" class="col-lg-3 control-label">Mobile No.:</label>
                         <div class="col-lg-9">
-                            <asp:TextBox ID="txtMobile" runat="server" class="form-control" type="number" MaxLength="8" required></asp:TextBox>
+                            <%-- Textbox for reporter's mobile number with required validation and regex validation (8 numeric characters starting with 8 or 9) --%>
+                            <asp:RequiredFieldValidator ID="requiredMobile" runat="server" ErrorMessage="Please enter a mobile number" ControlToValidate="txtMobile" Display="Dynamic" ValidationGroup="AddIncident"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="regexMobile" runat="server" ErrorMessage="Please enter a valid mobile number" ControlToValidate="txtMobile" Display="Dynamic" ValidationGroup="AddIncident" ValidationExpression="[89][0-9]{7}"></asp:RegularExpressionValidator>
+                            <asp:TextBox ID="txtMobile" runat="server" class="form-control" type="number"></asp:TextBox>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="txtPostal" class="col-lg-3 control-label">Postal Code:</label>
                         <div class="col-lg-9">
-                            <asp:TextBox ID="txtPostal" runat="server" class="form-control" type="number" MaxLength="6" required></asp:TextBox>
+                            <%-- Textbox for reporter's postal code with required validation and regex validation (6 numeric characters) --%>
+                            <asp:RequiredFieldValidator ID="requiredPostal" runat="server" ErrorMessage="Please enter a postal code" ControlToValidate="txtPostal" Display="Dynamic" ValidationGroup="AddIncident"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="regexPostal" runat="server" ErrorMessage="Please enter a valid postal code" ControlToValidate="txtPostal" Display="Dynamic" ValidationGroup="AddIncident" ValidationExpression="[0-9]{6}"></asp:RegularExpressionValidator>
+                            <asp:TextBox ID="txtPostal" runat="server" class="form-control" type="number"></asp:TextBox>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="txtUnitNo" class="col-lg-3 control-label">Unit No.:</label>
                         <div class="col-lg-9">
+                            <%-- Textbox for reporter's unit number with required validation and regex validation (in the format #12-34 up to #12-3456) --%>
+                            <asp:RegularExpressionValidator ID="regexUnitNo" runat="server" ErrorMessage="Please enter a valid unit number" ControlToValidate="txtUnitNo" Display="Dynamic" ValidationGroup="AddIncident" ValidationExpression="#[0-9]{2}-[0-9]{2,4}"></asp:RegularExpressionValidator>
                             <asp:TextBox ID="txtUnitNo" runat="server" class="form-control"></asp:TextBox>
                         </div>
                     </div>
@@ -52,7 +62,8 @@
                     </div>
                     <div class="form-group">
                         <div class="col-lg-9 col-lg-offset-3">
-                            <asp:Button ID="btnSubmit" class="btn btn-primary" runat="server" Text="Submit" OnClick="btnSubmit_Click" />
+                            <%-- Submit button with validation on the above textboxes in the same validation group --%>
+                            <asp:Button ID="btnSubmit" class="btn btn-primary" runat="server" Text="Submit" OnClick="btnSubmit_Click" ValidationGroup="AddIncident" />
                         </div>
                     </div>
                 </fieldset>
