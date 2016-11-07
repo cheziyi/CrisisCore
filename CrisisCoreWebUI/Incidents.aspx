@@ -21,7 +21,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="txtName" class="col-lg-3 control-label">Name:</label>
+                        <label for="txtName" class="col-lg-3 control-label">* Name:</label>
                         <div class="col-lg-9">
                             <%-- Textbox for reporter's name with required validation --%>
                             <asp:RequiredFieldValidator ID="requiredName" runat="server" ErrorMessage="Please enter the reporter's name" ControlToValidate="txtName" Display="Dynamic" ValidationGroup="AddIncident"></asp:RequiredFieldValidator>
@@ -29,21 +29,21 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="txtMobile" class="col-lg-3 control-label">Mobile No.:</label>
+                        <label for="txtMobile" class="col-lg-3 control-label">* Mobile No.:</label>
                         <div class="col-lg-9">
                             <%-- Textbox for reporter's mobile number with required validation and regex validation (8 numeric characters starting with 8 or 9) --%>
                             <asp:RequiredFieldValidator ID="requiredMobile" runat="server" ErrorMessage="Please enter a mobile number" ControlToValidate="txtMobile" Display="Dynamic" ValidationGroup="AddIncident"></asp:RequiredFieldValidator>
                             <asp:RegularExpressionValidator ID="regexMobile" runat="server" ErrorMessage="Please enter a valid mobile number" ControlToValidate="txtMobile" Display="Dynamic" ValidationGroup="AddIncident" ValidationExpression="[89][0-9]{7}"></asp:RegularExpressionValidator>
-                            <asp:TextBox ID="txtMobile" runat="server" class="form-control" type="number"></asp:TextBox>
+                            <asp:TextBox ID="txtMobile" runat="server" class="form-control"></asp:TextBox>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="txtPostal" class="col-lg-3 control-label">Postal Code:</label>
+                        <label for="txtPostal" class="col-lg-3 control-label">* Postal Code:</label>
                         <div class="col-lg-9">
                             <%-- Textbox for reporter's postal code with required validation and regex validation (6 numeric characters) --%>
                             <asp:RequiredFieldValidator ID="requiredPostal" runat="server" ErrorMessage="Please enter a postal code" ControlToValidate="txtPostal" Display="Dynamic" ValidationGroup="AddIncident"></asp:RequiredFieldValidator>
                             <asp:RegularExpressionValidator ID="regexPostal" runat="server" ErrorMessage="Please enter a valid postal code" ControlToValidate="txtPostal" Display="Dynamic" ValidationGroup="AddIncident" ValidationExpression="[0-9]{6}"></asp:RegularExpressionValidator>
-                            <asp:TextBox ID="txtPostal" runat="server" class="form-control" type="number"></asp:TextBox>
+                            <asp:TextBox ID="txtPostal" runat="server" class="form-control"></asp:TextBox>
                         </div>
                     </div>
                     <div class="form-group">
